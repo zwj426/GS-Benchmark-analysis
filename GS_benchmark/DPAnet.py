@@ -462,7 +462,6 @@ def main(args):
 
     valid_indices = [x for x in snp_sort if x in gwas.index]
     gwas = gwas.loc[valid_indices]
-    print(gwas.index.equals(snp_sort))
     p_values = gwas['p'].values.astype(np.float32)
     maf = gwas['Freq'].values.astype(np.float32)
 
@@ -471,7 +470,6 @@ def main(args):
     bayesB.index = ['_'.join(col.split('_')[:-1]) if len(col.split('_')) >= 2 else col for col in bayesB.index]
     valid_indices = [x for x in snp_sort if x in bayesB.index]
     bayesB = bayesB.loc[valid_indices]
-    print(bayesB.index.equals(snp_sort))
     bayesB_effect = bayesB['effect'].values.astype(np.float32) 
 
     # ==============================
