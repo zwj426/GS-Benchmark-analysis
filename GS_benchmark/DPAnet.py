@@ -95,7 +95,7 @@ class BayesianResidualLayer(nn.Module):
         self._init_weights()
     def _init_weights(self):
         with torch.no_grad():
-            sigma = torch.abs(self.combined_effects) * torch.abs(self.combined_effects) 
+            sigma = torch.abs(self.combined_effects) 
             if self.use_individual_init:
                 sigma_expanded = sigma.unsqueeze(1).expand(-1, self.W.size(1))
                 self.W.data = torch.normal(mean=0.0, std=sigma_expanded)
@@ -116,7 +116,7 @@ class DPANet(nn.Module):
             bayesB_effects = torch.tensor(bayesB_effects, dtype=torch.float32)
         # Attention layer
         w_j = -torch.log10(torch.tensor(p_values, dtype=torch.float32) + 1e-10)
-        self.attention = DynamicAttentionLayer(input_dim, w_j, maf, bayesB_effects)
+        self.attention = DynamicAttentionLayer(input_dim, w_j, maf, bayesB_effects ** 2)
         # Residual block
         self.block1 = nn.Sequential(
             BayesianResidualLayer(input_dim, hidden_dims[0], bayesB_effects),
