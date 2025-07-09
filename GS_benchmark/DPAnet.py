@@ -57,11 +57,11 @@ def read_data(gen_file, phe_file):
 # ==============================
 class DynamicAttentionLayer(nn.Module):
     """Dynamic attention layer"""
-    def __init__(self, input_dim, gwas_weights, maf, bayesB_effects, hidden_dim=32):
+    def __init__(self, input_dim, gwas_weights, maf, bayesB_squared, hidden_dim=32):
         super().__init__()
         self.register_buffer('gwas_weights', torch.tensor(gwas_weights, dtype=torch.float32))
         self.register_buffer('maf', torch.tensor(maf, dtype=torch.float32))
-        self.register_buffer('bayesB_effects', torch.tensor(bayesB_effects, dtype=torch.float32))
+        self.register_buffer('bayesB_effects', torch.tensor(bayesB_squared, dtype=torch.float32))
         # Attention network
         self.attention_net = nn.Sequential(
             nn.Linear(3, hidden_dim),
